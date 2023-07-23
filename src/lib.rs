@@ -7,30 +7,30 @@ pub const FLOAT_EQ_EPS: f64 = 0.00001;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Tuple4D {
-    x: f64,
-    y: f64,
-    z: f64,
-    w: f64
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
+    pub w: f64
 }
 
 impl Tuple4D {
-    fn new_point(x:f64, y:f64, z:f64) -> Tuple4D {
+    pub fn new_point(x:f64, y:f64, z:f64) -> Tuple4D {
         Tuple4D{x, y, z, w: 1.0}
     }
 
-    fn new_vector(x: f64, y:f64, z:f64) -> Tuple4D {
+    pub fn new_vector(x: f64, y:f64, z:f64) -> Tuple4D {
         Tuple4D { x, y, z, w: 0.0 }
     }
 
-    fn is_vector(self) -> bool {
+    pub fn is_vector(self) -> bool {
         float_eq(self.w, 0.0, FLOAT_EQ_EPS)
     }
 
-    fn is_point(self) -> bool {
+    pub fn is_point(self) -> bool {
         float_eq(self.w, 1.0, FLOAT_EQ_EPS)
     }
 
-    fn magnitude(self) -> f64 {
+    pub fn magnitude(self) -> f64 {
         (
             self.x * self.x + 
             self.y * self.y + 
@@ -39,11 +39,11 @@ impl Tuple4D {
         ).sqrt()
     }
 
-    fn normalize(self) -> Self {
+    pub fn normalize(self) -> Self {
         self/self.magnitude()
     }
 
-    fn dot(self, other: Self) -> f64 {
+    pub fn dot(self, other: Self) -> f64 {
         if !self.is_vector() || !other.is_vector(){
             panic!("Called cross product on a tuple that is not a vector");
         }
@@ -52,7 +52,7 @@ impl Tuple4D {
         self.z * other.z
     }
 
-    fn cross(self, other: Self) -> Self {
+    pub fn cross(self, other: Self) -> Self {
         if !self.is_vector() || !other.is_vector(){
             panic!("Called cross product on a tuple that is not a vector");
         }
