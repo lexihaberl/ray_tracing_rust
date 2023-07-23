@@ -45,7 +45,7 @@ impl Tuple4D {
 
     pub fn dot(self, other: Self) -> f64 {
         if !self.is_vector() || !other.is_vector(){
-            panic!("Called cross product on a tuple that is not a vector");
+            panic!("Called dot product on a tuple that is not a vector");
         }
         self.x * other.x +
         self.y * other.y +
