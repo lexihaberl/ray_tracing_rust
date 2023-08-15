@@ -1,9 +1,5 @@
+use crate::math::{float_eq, FLOAT_EQ_EPS};
 use std::ops::{Add, Div, Mul, Neg, Sub};
-
-fn float_eq(a: f64, b: f64, eps: f64) -> bool {
-    (a - b).abs() < eps
-}
-pub const FLOAT_EQ_EPS: f64 = 0.00001;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Tuple4D {
