@@ -1,5 +1,5 @@
 use crate::math::{float_eq, FLOAT_EQ_EPS};
-use std::ops::{Add, Div, Mul, Neg, Sub};
+use std::ops::{Add, Div, Index, IndexMut, Mul, Neg, Sub};
 
 #[derive(Debug, Clone, Copy)]
 pub struct Tuple4D {
@@ -16,6 +16,10 @@ impl Tuple4D {
 
     pub fn new_vector(x: f64, y: f64, z: f64) -> Tuple4D {
         Tuple4D { x, y, z, w: 0.0 }
+    }
+
+    pub fn zeros() -> Tuple4D {
+        Tuple4D::new_vector(0.0, 0.0, 0.0)
     }
 
     pub fn is_vector(self) -> bool {
@@ -127,6 +131,31 @@ impl Div<f64> for Tuple4D {
     }
 }
 
+impl Index<usize> for Tuple4D {
+    type Output = f64;
+    fn index(&self, index: usize) -> &Self::Output {
+        match index {
+            0 => &self.x,
+            1 => &self.y,
+            2 => &self.z,
+            3 => &self.w,
+            _ => panic!("tried accessing idx {} for Tuple4D", index),
+        }
+    }
+}
+
+impl IndexMut<usize> for Tuple4D {
+    fn index_mut(&mut self, index: usize) -> &mut Self::Output {
+        match index {
+            0 => &mut self.x,
+            1 => &mut self.y,
+            2 => &mut self.z,
+            3 => &mut self.w,
+            _ => panic!("tried accessing idx {} for Tuple4D", index),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -175,6 +204,29 @@ mod tests {
         assert!(point.is_point());
         let point = Tuple4D::new_point(-1.0, 3.0, -7.0);
         assert!(point.is_point());
+    }
+
+    #[test]
+    fn indexing() {
+        let point = Tuple4D::new_point(2.0, 3.0, 7.0);
+        assert!(
+            float_eq(2.0, point[0], FLOAT_EQ_EPS)
+                && float_eq(3.0, point[1], FLOAT_EQ_EPS)
+                && float_eq(7.0, point[2], FLOAT_EQ_EPS)
+                && float_eq(1.0, point[3], FLOAT_EQ_EPS)
+        )
+    }
+
+    fn indexing_mut() {
+        let mut point = Tuple4D::new_point(2.0, 3.0, 7.0);
+        point[2] = 42.0;
+        point[3] = 20.0;
+        assert!(
+            float_eq(2.0, point[0], FLOAT_EQ_EPS)
+                && float_eq(3.0, point[1], FLOAT_EQ_EPS)
+                && float_eq(42.0, point[2], FLOAT_EQ_EPS)
+                && float_eq(20.0, point[3], FLOAT_EQ_EPS)
+        )
     }
 
     #[test]
