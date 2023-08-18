@@ -74,6 +74,25 @@ impl Matrix4 {
     pub fn zeros() -> Matrix4 {
         Matrix4::create_and_fill(0.0)
     }
+
+    pub fn eye() -> Matrix4 {
+        let mut mat = Matrix4::create_and_fill(0.0);
+        mat[[0, 0]] = 1.0;
+        mat[[1, 1]] = 1.0;
+        mat[[2, 2]] = 1.0;
+        mat[[3, 3]] = 1.0;
+        mat
+    }
+
+    pub fn transpose(&self) -> Matrix4 {
+        let mut transposed_matrix = Matrix4::zeros();
+        for i in 0..=3 {
+            for j in 0..=3 {
+                transposed_matrix[[i, j]] = self[[j, i]]
+            }
+        }
+        transposed_matrix
+    }
 }
 
 #[cfg(test)]
@@ -130,6 +149,35 @@ mod tests {
         let matrix2 = matrix;
         matrix[[3, 3]] = 3.0;
         assert_ne!(matrix, matrix2);
+    }
+
+    #[test]
+    fn mult_with_identity() {
+        let mut matrix = Matrix4::zeros();
+        matrix[[0, 0]] = -2.0;
+        matrix[[0, 1]] = 1.0;
+        matrix[[0, 2]] = 2.0;
+        matrix[[0, 3]] = 3.0;
+        matrix[[1, 0]] = 3.0;
+        matrix[[1, 1]] = 2.0;
+        matrix[[1, 2]] = 1.0;
+        matrix[[1, 3]] = -1.0;
+        matrix[[2, 0]] = 4.0;
+        matrix[[2, 1]] = 3.0;
+        matrix[[2, 2]] = 6.0;
+        matrix[[2, 3]] = 5.0;
+        matrix[[3, 0]] = 1.0;
+        matrix[[3, 1]] = 2.0;
+        matrix[[3, 2]] = 7.0;
+        matrix[[3, 3]] = 8.0;
+
+        assert_eq!(matrix * Matrix4::eye(), matrix)
+    }
+
+    #[test]
+    fn mult_tupl_with_identity() {
+        let tuple = Tuple4D::new_point(1.0, 2.0, 30.0);
+        assert_eq!(Matrix4::eye() * tuple, tuple);
     }
 
     #[test]
@@ -214,5 +262,46 @@ mod tests {
         let point = Tuple4D::new_point(1.0, 2.0, 3.0);
 
         assert_eq!(matrix * point, Tuple4D::new_point(18., 24., 33.))
+    }
+
+    #[test]
+    fn transposition() {
+        let mut matrix = Matrix4::zeros();
+        matrix[[0, 0]] = -2.0;
+        matrix[[0, 1]] = 1.0;
+        matrix[[0, 2]] = 2.0;
+        matrix[[0, 3]] = 3.0;
+        matrix[[1, 0]] = 3.0;
+        matrix[[1, 1]] = 2.0;
+        matrix[[1, 2]] = 1.0;
+        matrix[[1, 3]] = -1.0;
+        matrix[[2, 0]] = 4.0;
+        matrix[[2, 1]] = 3.0;
+        matrix[[2, 2]] = 6.0;
+        matrix[[2, 3]] = 5.0;
+        matrix[[3, 0]] = 1.0;
+        matrix[[3, 1]] = 2.0;
+        matrix[[3, 2]] = 7.0;
+        matrix[[3, 3]] = 8.0;
+
+        let mut expected = Matrix4::zeros();
+        expected[[0, 0]] = -2.0;
+        expected[[1, 0]] = 1.0;
+        expected[[2, 0]] = 2.0;
+        expected[[3, 0]] = 3.0;
+        expected[[0, 1]] = 3.0;
+        expected[[1, 1]] = 2.0;
+        expected[[2, 1]] = 1.0;
+        expected[[3, 1]] = -1.0;
+        expected[[0, 2]] = 4.0;
+        expected[[1, 2]] = 3.0;
+        expected[[2, 2]] = 6.0;
+        expected[[3, 2]] = 5.0;
+        expected[[0, 3]] = 1.0;
+        expected[[1, 3]] = 2.0;
+        expected[[2, 3]] = 7.0;
+        expected[[3, 3]] = 8.0;
+
+        assert_eq!(matrix.transpose(), expected)
     }
 }
