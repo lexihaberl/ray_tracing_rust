@@ -217,6 +217,7 @@ mod tests {
         )
     }
 
+    #[test]
     fn indexing_mut() {
         let mut point = Tuple4D::new_point(2.0, 3.0, 7.0);
         point[2] = 42.0;
