@@ -154,7 +154,7 @@ impl Matrix4 {
 
 #[cfg(test)]
 mod tests {
-    use crate::math::{matrix3, Tuple4D};
+    use crate::math::Tuple4D;
 
     use super::*;
 

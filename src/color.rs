@@ -13,7 +13,7 @@ impl Color {
         Color { r, g, b }
     }
 
-    fn mul_color(self, rhs: Self) -> Self {
+    pub fn mul_color(self, rhs: Self) -> Self {
         Self {
             r: self.r * rhs.r,
             g: self.g * rhs.g,
