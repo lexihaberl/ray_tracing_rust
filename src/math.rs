@@ -4,6 +4,8 @@ mod matrix;
 pub use matrix::Matrix4;
 mod matrix2;
 pub use matrix2::Matrix2;
+mod matrix3;
+pub use matrix3::Matrix3;
 
 pub fn float_eq(a: f64, b: f64, eps: f64) -> bool {
     (a - b).abs() < eps

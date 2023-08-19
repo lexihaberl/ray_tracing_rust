@@ -1,3 +1,4 @@
+use super::{float_eq, FLOAT_EQ_EPS};
 use std::ops::{Index, IndexMut};
 
 #[derive(Debug, Clone, Copy)]
@@ -16,6 +17,19 @@ impl Index<[usize; 2]> for Matrix2 {
 impl IndexMut<[usize; 2]> for Matrix2 {
     fn index_mut(&mut self, index: [usize; 2]) -> &mut Self::Output {
         &mut self.data[index[0]][index[1]]
+    }
+}
+
+impl PartialEq for Matrix2 {
+    fn eq(&self, other: &Self) -> bool {
+        for i in 0..=1 {
+            for j in 0..=1 {
+                if !float_eq(self[[i, j]], other[[i, j]], FLOAT_EQ_EPS) {
+                    return false;
+                }
+            }
+        }
+        true
     }
 }
 
